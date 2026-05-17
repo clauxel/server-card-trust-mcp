@@ -1,0 +1,20 @@
+name: Docs feedback
+description: Report a docs, listing, or MCP setup issue
+title: "Docs feedback: "
+labels: [documentation]
+body:
+  - type: markdown
+    attributes:
+      value: Do not include tokens, API keys, private prompts, customer data, or secrets.
+  - type: input
+    id: page
+    attributes:
+      label: Page or directory
+      description: Which page, registry, or directory entry has the issue?
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What should be corrected or clarified?
+    validations:
+      required: true
