@@ -1,0 +1,38 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "space.servercardtrust/servercardtrust-mcp",
+  "title": "ServerCard Trust MCP",
+  "description": "Paid remote MCP for server-card validation, auth checks, trust packets, and readiness.",
+  "version": "0.1.0",
+  "websiteUrl": "https://servercardtrust.space/",
+  "icons": [
+    {
+      "src": "https://servercardtrust.space/favicon.svg",
+      "mimeType": "image/svg+xml",
+      "sizes": [
+        "any"
+      ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://servercardtrust.space/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Bearer token issued after checkout and MCP token claim.",
+          "isRequired": true,
+          "isSecret": true,
+          "placeholder": "Bearer <token>"
+        }
+      ]
+    }
+  ],
+  "_meta": {
+    "io.modelcontextprotocol.registry/publisher-provided": {
+      "serverCardUrl": "https://servercardtrust.space/.well-known/mcp/server-card.json",
+      "accessModel": "paid_mcp_bearer_token"
+    }
+  }
+}
