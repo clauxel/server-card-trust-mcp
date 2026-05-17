@@ -1,0 +1,10 @@
+ServerCard Trust MCP
+
+Paid remote MCP for server-card validation, auth checks, trust packets, and readiness.
+
+Website: https://servercardtrust.space/
+MCP endpoint: https://servercardtrust.space/mcp
+Server card: https://servercardtrust.space/.well-known/mcp/server-card.json
+Registry name: space.servercardtrust/servercardtrust-mcp
+Auth: Authorization: Bearer <token> after checkout and token claim.
+Boundary: read-only fixed tools for MCP server-card validation; no arbitrary shell, arbitrary SQL, deployment, deletion, or payment configuration tools.
