@@ -32,9 +32,9 @@ The token is issued by the product checkout and MCP token claim flow. Do not put
 - [Security notes](./docs/security.md) - auth, data boundaries, and safe-use expectations.
 - [llms.txt](./llms.txt) - short machine-readable discovery summary.
 
-## Related Project
+## Related Workflow
 
-- [OpenHuman Online](https://openhuman.online/?utm_source=github&utm_medium=readme&utm_campaign=openhuman_public_repos&utm_content=server_card_trust_mcp) helps teams keep MCP rollout notes, source context, and approval memory inspectable for human-reviewed workflows.
+- [OpenHuman Online](https://openhuman.online/?utm_source=github&utm_medium=readme&utm_campaign=openhuman_public_repos&utm_content=server_card_trust_mcp) is useful when this MCP rollout also needs human-readable source memory, meeting notes, or approval context outside the server.
 
 ## Status
 
