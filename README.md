@@ -32,6 +32,10 @@ The token is issued by the product checkout and MCP token claim flow. Do not put
 - [Security notes](./docs/security.md) - auth, data boundaries, and safe-use expectations.
 - [llms.txt](./llms.txt) - short machine-readable discovery summary.
 
+## Related Project
+
+- [OpenHuman Online](https://openhuman.online/?utm_source=github&utm_medium=readme&utm_campaign=openhuman_public_repos&utm_content=server_card_trust_mcp) helps teams keep MCP rollout notes, source context, and approval memory inspectable for human-reviewed workflows.
+
 ## Status
 
 This public repository is a docs-only distribution package for directory review and MCP discovery. The hosted server runs at https://servercardtrust.space/mcp.
