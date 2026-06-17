@@ -1,0 +1,24 @@
+{
+  "brand": "ServerCard Trust MCP",
+  "domain": "servercardtrust.space",
+  "tagline": "Server card validation and trust evidence for teams publishing or approving remote MCP servers.",
+  "description": "Server card validation and trust evidence for teams publishing or approving remote MCP servers.",
+  "audience": "MCP publishers, platform reviewers, and security teams checking remote server metadata",
+  "pages": [
+    [
+      "mcp-server-card",
+      "MCP server card validation",
+      "Check server card identity, auth metadata, endpoint claims, and client-ready trust evidence before listing."
+    ],
+    [
+      "server-card-validation",
+      "Server card validation workflow",
+      "Turn server-card JSON, public docs, and endpoint behavior into a concise readiness verdict."
+    ],
+    [
+      "mcp-trust-center",
+      "MCP trust center for server review",
+      "Create a review surface for MCP server ownership, tool scope, auth, contact, and change evidence."
+    ]
+  ]
+}
