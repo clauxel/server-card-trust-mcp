@@ -4,6 +4,20 @@
   "tagline": "Server card validation and trust evidence for teams publishing or approving remote MCP servers.",
   "description": "Server card validation and trust evidence for teams publishing or approving remote MCP servers.",
   "audience": "MCP publishers, platform reviewers, and security teams checking remote server metadata",
+  "offer": {
+    "headline": "Paid MCP trust validation package",
+    "summary": "A paid review turns server-card metadata, public documentation, endpoint behavior, ownership evidence, and client-readiness signals into a concise trust packet before listing or buyer review.",
+    "deliverables": [
+      "Server-card JSON and endpoint claim audit",
+      "Ownership, contact, auth, and tool-scope evidence checklist",
+      "Listing-readiness verdict with blockers, owner, and next action"
+    ],
+    "plans": [
+      ["Operator", "19", "One server-card validation report for a small MCP server or listing update."],
+      ["Team", "49", "Repeatable MCP trust packet, review checklist, and buyer-facing evidence summary."],
+      ["Scale", "99", "Portfolio audit rhythm for multiple MCP servers, listing updates, and trust-center refreshes."]
+    ]
+  },
   "pages": [
     [
       "mcp-server-card",

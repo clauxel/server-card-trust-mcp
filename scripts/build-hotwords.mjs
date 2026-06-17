@@ -33,6 +33,7 @@ function layout({ title, description, slug = '', body, robots = 'index,follow' }
 }
 
 function schema(title, description, url) {
+  const plans = configuredPlans()
   return {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -41,13 +42,35 @@ function schema(title, description, url) {
     operatingSystem: 'Web',
     url,
     description,
-    offers: [
-      { '@type': 'Offer', name: 'Operator', price: '19', priceCurrency: 'USD', url: pageUrl('pricing') },
-      { '@type': 'Offer', name: 'Team', price: '49', priceCurrency: 'USD', url: pageUrl('pricing') },
-      { '@type': 'Offer', name: 'Scale', price: '99', priceCurrency: 'USD', url: pageUrl('pricing') },
-    ],
+    offers: plans.map(([name, price]) => ({
+      '@type': 'Offer',
+      name,
+      price,
+      priceCurrency: 'USD',
+      url: pageUrl('pricing'),
+    })),
     provider: { '@type': 'Organization', name: 'Clauxel', email: 'support@aigeamy.com' },
   }
+}
+
+function configuredPlans() {
+  return config.offer?.plans || [
+    ['Operator', '19', 'One workflow owner reviewing a small number of endpoints or agent runs.'],
+    ['Team', '49', 'Teams that need repeatable review, evidence, and decision records.'],
+    ['Scale', '99', 'Larger portfolios that need stronger coverage and operating rhythm.'],
+  ]
+}
+
+function offerDeliverableCards() {
+  const deliverables = config.offer?.deliverables || [
+    'Structured checklist and risk evidence',
+    'Decision-ready review artifact',
+    'Owner, status, blocker, and next-action record',
+  ]
+
+  return deliverables
+    .map((item) => '<article class="card"><h3>' + escapeHtml(item) + '</h3><p>Included in the paid review package so the result is inspectable before a team relies on it.</p></article>')
+    .join('')
 }
 
 function css() {
@@ -59,7 +82,7 @@ function homeHtml() {
   return layout({
     title: config.brand + ' | ' + config.tagline,
     description: config.description,
-    body: '<main><section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">Hosted workflow</p><h1>' + escapeHtml(config.tagline) + '</h1><p class="lead">' + escapeHtml(config.description) + '</p><div class="actions"><a class="button primary" href="/pricing/">View pricing</a><a class="button" href="/' + config.pages[0].slug + '/">Open workflow guide</a></div></div><aside class="panel"><h2>What teams get</h2><p>' + escapeHtml(config.audience) + ' can use this as a focused review surface before rollout.</p><div class="metric"><div><strong>Input</strong><span>Endpoint, prompt, repo, server card, or memory context</span></div><div><strong>Review</strong><span>Structured checklist and risk evidence</span></div><div><strong>Output</strong><span>Decision-ready summary</span></div><div><strong>Next</strong><span>Checkout or implementation plan</span></div></div></aside></div></section><section class="section"><div class="wrap"><h2>Intent pages</h2><div class="grid">' + links + '</div></div></section></main>',
+    body: '<main><section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">Hosted workflow</p><h1>' + escapeHtml(config.tagline) + '</h1><p class="lead">' + escapeHtml(config.description) + '</p><div class="actions"><a class="button primary" href="/pricing/">View pricing</a><a class="button" href="/' + config.pages[0].slug + '/">Open workflow guide</a></div></div><aside class="panel"><h2>What teams get</h2><p>' + escapeHtml(config.audience) + ' can use this as a focused review surface before rollout.</p><div class="metric"><div><strong>Input</strong><span>Endpoint, prompt, repo, server card, or memory context</span></div><div><strong>Review</strong><span>Structured checklist and risk evidence</span></div><div><strong>Output</strong><span>Decision-ready summary</span></div><div><strong>Next</strong><span>Checkout or implementation plan</span></div></div></aside></div></section><section class="section"><div class="wrap"><h2>' + escapeHtml(config.offer?.headline || 'Paid review package') + '</h2><p>' + escapeHtml(config.offer?.summary || 'Paid plans package the review into an evidence-backed workflow artifact.') + '</p><div class="grid">' + offerDeliverableCards() + '</div></div></section><section class="section"><div class="wrap"><h2>Intent pages</h2><div class="grid">' + links + '</div></div></section></main>',
   })
 }
 
@@ -68,22 +91,18 @@ function intentHtml(page) {
     title: page.title + ' | ' + config.brand,
     description: page.summary,
     slug: page.slug,
-    body: '<main><section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">' + escapeHtml(config.brand) + '</p><h1>' + escapeHtml(page.title) + '</h1><p class="lead">' + escapeHtml(page.summary) + '</p><div class="actions"><a class="button primary" href="/pricing/?intent=' + page.slug + '">View pricing</a><a class="button" href="/llms.txt">Read AI summary</a></div></div><aside class="panel"><h2>Workflow fit</h2><p>' + escapeHtml(config.audience) + ' use this page to map the intent into a practical implementation path.</p><div class="metric"><div><strong>1</strong><span>Scope the system or endpoint</span></div><div><strong>2</strong><span>Check trust and data boundaries</span></div><div><strong>3</strong><span>Create a review artifact</span></div><div><strong>4</strong><span>Route next action to owner</span></div></div></aside></div></section><section class="section"><div class="wrap"><h2>How the review works</h2><div class="steps"><div class="step"><strong>Collect</strong><p>Gather the endpoint, repo notes, server card, prompts, memory files, or run context needed for review.</p></div><div class="step"><strong>Normalize</strong><p>Turn unstructured inputs into a consistent checklist that humans and agents can compare.</p></div><div class="step"><strong>Assess</strong><p>Flag trust, safety, retention, permission, or execution risks before rollout.</p></div><div class="step"><strong>Record</strong><p>Keep a decision summary with evidence, owner, status, and follow-up action.</p></div></div></div></section><section class="section"><div class="wrap"><h2>Useful for</h2><div class="grid"><article class="card"><h3>Launch review</h3><p>Before publishing a server, tool, agent workflow, or memory policy.</p></article><article class="card"><h3>Buyer evidence</h3><p>When a customer needs a concise trust or security review.</p></article><article class="card"><h3>Agent operations</h3><p>When automated runs need machine-readable evidence and human-readable summaries.</p></article></div></div></section></main>',
+    body: '<main><section class="hero"><div class="wrap hero-grid"><div><p class="eyebrow">' + escapeHtml(config.brand) + '</p><h1>' + escapeHtml(page.title) + '</h1><p class="lead">' + escapeHtml(page.summary) + '</p><div class="actions"><a class="button primary" href="/pricing/?intent=' + page.slug + '">View pricing</a><a class="button" href="/llms.txt">Read AI summary</a></div></div><aside class="panel"><h2>Workflow fit</h2><p>' + escapeHtml(config.audience) + ' use this page to map the intent into a practical implementation path.</p><div class="metric"><div><strong>1</strong><span>Scope the system or endpoint</span></div><div><strong>2</strong><span>Check trust and data boundaries</span></div><div><strong>3</strong><span>Create a review artifact</span></div><div><strong>4</strong><span>Route next action to owner</span></div></div></aside></div></section><section class="section"><div class="wrap"><h2>How the review works</h2><div class="steps"><div class="step"><strong>Collect</strong><p>Gather the endpoint, repo notes, server card, prompts, memory files, or run context needed for review.</p></div><div class="step"><strong>Normalize</strong><p>Turn unstructured inputs into a consistent checklist that humans and agents can compare.</p></div><div class="step"><strong>Assess</strong><p>Flag trust, safety, retention, permission, or execution risks before rollout.</p></div><div class="step"><strong>Record</strong><p>Keep a decision summary with evidence, owner, status, and follow-up action.</p></div></div></div></section><section class="section"><div class="wrap"><h2>' + escapeHtml(config.offer?.headline || 'Paid review package') + '</h2><p>' + escapeHtml(config.offer?.summary || 'Paid plans package the review into an evidence-backed workflow artifact.') + '</p><div class="grid">' + offerDeliverableCards() + '</div></div></section><section class="section"><div class="wrap"><h2>Useful for</h2><div class="grid"><article class="card"><h3>Launch review</h3><p>Before publishing a server, tool, agent workflow, or memory policy.</p></article><article class="card"><h3>Buyer evidence</h3><p>When a customer needs a concise trust or security review.</p></article><article class="card"><h3>Agent operations</h3><p>When automated runs need machine-readable evidence and human-readable summaries.</p></article></div></div></section></main>',
   })
 }
 
 function pricingHtml() {
-  const plans = [
-    ['Operator', '19', 'One workflow owner reviewing a small number of endpoints or agent runs.'],
-    ['Team', '49', 'Teams that need repeatable review, evidence, and decision records.'],
-    ['Scale', '99', 'Larger portfolios that need stronger coverage and operating rhythm.'],
-  ]
+  const plans = configuredPlans()
   const cards = plans.map(([name, price, text]) => '<article class="card"><h3>' + name + '</h3><div class="price">$' + price + ' <small>/mo</small></div><p>' + text + '</p><a class="button' + (name === 'Team' ? ' primary' : '') + '" href="/checkout/?plan=' + name.toLowerCase() + '&billing=monthly">Checkout ' + name + '</a></article>').join('')
   return layout({
     title: 'Pricing | ' + config.brand,
-    description: 'Pricing for ' + config.brand + ' hosted workflow review.',
+    description: 'Pricing for ' + config.brand + ' hosted workflow review and paid validation packages.',
     slug: 'pricing',
-    body: '<main><section class="hero"><div class="wrap"><p class="eyebrow">Pricing</p><h1>Choose a plan for repeatable workflow review.</h1><p class="lead">Monthly USD pricing. Annual billing can be arranged from checkout or support.</p><div class="grid">' + cards + '</div></div></section></main>',
+    body: '<main><section class="hero"><div class="wrap"><p class="eyebrow">Pricing</p><h1>Choose a plan for repeatable workflow review.</h1><p class="lead">Monthly USD pricing for ' + escapeHtml(config.offer?.headline || 'paid validation packages') + '. Annual billing can be arranged from checkout or support.</p><div class="grid">' + cards + '</div></div></section></main>',
   })
 }
 
@@ -128,6 +147,6 @@ await copyIfExists('server-card.json', '.well-known/mcp/server-card.json')
 const urls = ['', 'pricing', 'privacy', 'terms', ...config.pages.map((page) => page.slug)]
 await write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + urls.map((slug) => '<url><loc>' + pageUrl(slug) + '</loc><changefreq>weekly</changefreq><priority>' + (slug ? '0.8' : '1.0') + '</priority></url>').join('') + '</urlset>\n')
 await write('robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://' + config.domain + '/sitemap.xml\n')
-await write('llms.txt', '# ' + config.brand + '\n\n' + config.description + '\n\nCanonical: https://' + config.domain + '/\nAudience: ' + config.audience + '\n\nKey pages:\n' + urls.map((slug) => '- ' + pageUrl(slug)).join('\n') + '\n')
+await write('llms.txt', '# ' + config.brand + '\n\n' + config.description + '\n\nUpdated: 2026-06-17\nCanonical: https://' + config.domain + '/\nAudience: ' + config.audience + '\nPaid offer: ' + (config.offer?.headline || 'Paid review package') + '. ' + (config.offer?.summary || '') + '\n\nKey pages:\n' + urls.map((slug) => '- ' + pageUrl(slug)).join('\n') + '\n')
 
 console.log('Built hotword assets for ' + config.domain + ' -> ' + out)
