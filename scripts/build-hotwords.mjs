@@ -141,12 +141,19 @@ await write('success/index.html', simplePage('success', 'Payment return', 'Payme
 await write('privacy/index.html', simplePage('privacy', 'Privacy Policy', 'We process submitted workflow context only to provide review, support, security, and service operations. Do not submit secrets or unnecessary personal data.'))
 await write('terms/index.html', simplePage('terms', 'Terms of Service', 'Use this service for workflow review and operational evidence. Outputs support human decisions and do not guarantee rankings, uptime, security, or business outcomes.'))
 
-await copyIfExists('server.json', '.well-known/mcp/server-card.json')
-await copyIfExists('server-card.json', '.well-known/mcp/server-card.json')
+const copiedServerJson = await copyIfExists('server.json', '.well-known/mcp/server-card.json')
+const copiedServerCardJson = await copyIfExists('server-card.json', '.well-known/mcp/server-card.json')
+if (copiedServerCardJson) {
+  await copyIfExists('server-card.json', 'server-card.json')
+  await copyIfExists('server-card.json', 'server.json')
+} else if (copiedServerJson) {
+  await copyIfExists('server.json', 'server-card.json')
+  await copyIfExists('server.json', 'server.json')
+}
 
 const urls = ['', 'pricing', 'privacy', 'terms', ...config.pages.map((page) => page.slug)]
 await write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + urls.map((slug) => '<url><loc>' + pageUrl(slug) + '</loc><changefreq>weekly</changefreq><priority>' + (slug ? '0.8' : '1.0') + '</priority></url>').join('') + '</urlset>\n')
-await write('robots.txt', 'User-agent: *\nAllow: /\nSitemap: https://' + config.domain + '/sitemap.xml\n')
+await write('robots.txt', 'User-agent: *\nAllow: /\nDisallow: /checkout/\nDisallow: /success/\nSitemap: https://' + config.domain + '/sitemap.xml\n')
 await write('llms.txt', '# ' + config.brand + '\n\n' + config.description + '\n\nUpdated: 2026-06-17\nCanonical: https://' + config.domain + '/\nAudience: ' + config.audience + '\nPaid offer: ' + (config.offer?.headline || 'Paid review package') + '. ' + (config.offer?.summary || '') + '\n\nKey pages:\n' + urls.map((slug) => '- ' + pageUrl(slug)).join('\n') + '\n')
 
 console.log('Built hotword assets for ' + config.domain + ' -> ' + out)

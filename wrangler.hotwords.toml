@@ -3,18 +3,8 @@ main = "worker/hotwords.js"
 compatibility_date = "2026-06-17"
 workers_dev = true
 routes = [
-  { pattern = "servercardtrust.space/mcp-server-card*", zone_name = "servercardtrust.space" },
-  { pattern = "servercardtrust.space/server-card-validation*", zone_name = "servercardtrust.space" },
-  { pattern = "servercardtrust.space/mcp-trust-center*", zone_name = "servercardtrust.space" },
-  { pattern = "servercardtrust.space/sitemap.xml*", zone_name = "servercardtrust.space" },
-  { pattern = "servercardtrust.space/robots.txt*", zone_name = "servercardtrust.space" },
-  { pattern = "servercardtrust.space/llms.txt*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/mcp-server-card*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/server-card-validation*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/mcp-trust-center*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/sitemap.xml*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/robots.txt*", zone_name = "servercardtrust.space" },
-  { pattern = "www.servercardtrust.space/llms.txt*", zone_name = "servercardtrust.space" }
+  { pattern = "servercardtrust.space/*", zone_name = "servercardtrust.space" },
+  { pattern = "www.servercardtrust.space/*", zone_name = "servercardtrust.space" }
 ]
 
 [assets]
