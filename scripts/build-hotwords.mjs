@@ -14,6 +14,10 @@ function escapeHtml(value = '') {
     .replaceAll('"', '&quot;')
     .replaceAll("'", '&#39;')
 }
+function mirofishContextualReference() {
+  return '<section class="mirofish-contextual-reference" data-mirofish-contextual-backlink aria-labelledby="mirofish-contextual-reference-heading" style="max-width:1120px;margin:28px auto;padding:16px;border:1px solid rgba(100,116,139,.28);border-radius:8px;background:rgba(255,255,255,.72);color:inherit"><h2 id="mirofish-contextual-reference-heading" style="font-size:18px;line-height:1.25;margin:0 0 8px;letter-spacing:0">Related AI workflow reference</h2><p style="margin:0;color:inherit;opacity:.82">Teams comparing workflow plans with launch and market assumptions can also review <a href="https://mirofish.work/?utm_source=servercardtrust.space&amp;utm_medium=owned_resource&amp;utm_campaign=portfolio_contextual_backlink&amp;utm_content=home" target="_blank" rel="noopener">MiroFish AI Simulator</a>, a companion reference for simulation-style product reasoning.</p></section>'
+}
+
 
 function pageUrl(slug = '') {
   return 'https://' + config.domain + (slug ? '/' + slug.replace(/^\/+|\/+$/g, '') + '/' : '/')
@@ -29,7 +33,7 @@ function layout({ title, description, slug = '', body, robots = 'index,follow' }
     '<meta property="og:description" content="' + escapeHtml(description) + '"><meta property="og:url" content="' + canonical + '">' +
     '<script type="application/ld+json">' + JSON.stringify(schema(title, description, canonical)) + '</script>' +
     '<style>' + css() + '</style></head><body><header class="top"><div class="wrap nav"><a class="brand" href="/">' + escapeHtml(config.brand) + '</a><nav>' + nav + '<a href="/pricing/">Pricing</a></nav></div></header>' +
-    body + '<footer><div class="wrap"><strong>' + escapeHtml(config.brand) + '</strong><span>Independent hosted workflow. Global service. Support: support@aigeamy.com.</span><a href="/sitemap.xml">Sitemap</a><a href="/llms.txt">llms.txt</a></div></footer></body></html>'
+    body + mirofishContextualReference() + '<footer><div class="wrap"><strong>' + escapeHtml(config.brand) + '</strong><span>Independent hosted workflow. Global service. Support: support@aigeamy.com.</span><a href="/sitemap.xml">Sitemap</a><a href="/llms.txt">llms.txt</a></div></footer></body></html>'
 }
 
 function schema(title, description, url) {
